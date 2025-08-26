@@ -1,16 +1,30 @@
-package ie.setu
+package controllers
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, " + name + "!")
+import models.Athlete
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
+class AthleteAPI(private val brandAPI: BrandAPI) {
+    private val athletes = mutableListOf<Athlete>()
+
+    fun addAthlete(athlete: Athlete){
+        // add code to validate that AthleteId and deptId exist
+        // add code for adding a athlete with a unique id
+        athletes.add(athlete)
+    }
+
+    fun getAllAthletes(): List<Athlete> = athletes
+
+    fun getAthletesByBrand(brandId: Int): List<Athlete> =
+        athletes.filter { it.brandId == brandId }
+
+    fun addAthleteToBrand(athleteId: Int, brandId: Int) : String {
+        val athlete = athletes.find { it.id == athleteId }
+        if (athlete == null) {
+            return "models.Athlete with ID \${athleteId} does not exist"
+        } else if (brandAPI.brandExists(brandId) != null) {
+            return "models.Brand with ID \${brandId} does not exist."
+        } else {
+            athletes[athletes.indexOf(athlete)] = athlete.copy(brandId = brandId)
+            return "models.Athlete \${athlete.name} moved to brand ID \${brandId}."
+        }
     }
 }
