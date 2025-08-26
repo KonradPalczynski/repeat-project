@@ -5,7 +5,7 @@ import models.Brand
 class BrandAPI {
     private var brands = ArrayList<Brand>()
 
-    fun add(brand: Brand): Boolean {
+    fun addBrand(brand: Brand): Boolean {
         return brands.add(brand)
     }
 
@@ -20,4 +20,9 @@ class BrandAPI {
             listOfBrands
         }
     }
+
+    fun brandExists(id: Int): Boolean {
+        return brands.any { it.id == id }
+    }
+
 }

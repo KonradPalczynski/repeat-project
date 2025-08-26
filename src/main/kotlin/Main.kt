@@ -1,30 +1,40 @@
-package controllers
-
+import controllers.BrandAPI
+import controllers.AthleteAPI
+import models.Brand
 import models.Athlete
 
-class AthleteAPI(private val brandAPI: BrandAPI) {
-    private val athletes = mutableListOf<Athlete>()
+// Main function for handling operations
+fun main() {
 
-    fun addAthlete(athlete: Athlete){
-        // add code to validate that AthleteId and deptId exist
-        // add code for adding a athlete with a unique id
-        athletes.add(athlete)
-    }
+    val brandAPI = BrandAPI()
+    val athleteAPI = AthleteAPI(brandAPI)
 
-    fun getAllAthletes(): List<Athlete> = athletes
+    // Adding sample brands
+    brandAPI.addBrand(Brand(1, "HR"))
+    brandAPI.addBrand(Brand(2, "Engineering"))
 
-    fun getAthletesByBrand(brandId: Int): List<Athlete> =
-        athletes.filter { it.brandId == brandId }
+    // Adding sample athletes
+    athleteAPI.addAthlete(Athlete(1, "Alice", 1))
+    athleteAPI.addAthlete(Athlete(2, "Bob", 2))
 
-    fun addAthleteToBrand(athleteId: Int, brandId: Int) : String {
-        val athlete = athletes.find { it.id == athleteId }
-        if (athlete == null) {
-            return "models.Athlete with ID \${athleteId} does not exist"
-        } else if (brandAPI.brandExists(brandId) != null) {
-            return "models.Brand with ID \${brandId} does not exist."
-        } else {
-            athletes[athletes.indexOf(athlete)] = athlete.copy(brandId = brandId)
-            return "models.Athlete \${athlete.name} moved to brand ID \${brandId}."
-        }
-    }
+    // Adding athletes to a brand
+    athleteAPI.addAthleteToBrand(1, 2)
+    athleteAPI.addAthleteToBrand(2, 1)
+
+    // Displaying all athletes
+    println("All Athletes:")
+    athleteAPI.getAllAthletes().forEach { println(it) }
+
+    // Displaying all brands
+    println("All Brands:")
+    brandAPI.getAllBrands().forEach { println(it) }
+
+    // Displaying athletes by brand
+    println("\nAthletes in models.Brand 1:")
+    athleteAPI.getAthletesByBrand(1).forEach { println(it) }
+
+    // Displaying athletes by brand
+    println("\nAthletes in models.Brand 2:")
+    athleteAPI.getAthletesByBrand(2).forEach { println(it) }
+
 }
