@@ -1,4 +1,4 @@
-package controllers.models
+package models
 
 data class Brand (
     val id: Int,
