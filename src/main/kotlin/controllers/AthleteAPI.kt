@@ -8,8 +8,7 @@ class AthleteAPI(private val brandAPI: BrandAPI) {
     private val athletes = mutableListOf<Athlete>()
 
     fun addAthlete(athlete: Athlete){
-        // add code to validate that AthleteId and deptId exist
-        // add code for adding a athlete with a unique id
+
         athletes.add(athlete)
     }
 
