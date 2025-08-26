@@ -1,16 +1,40 @@
-package ie.setu
+import controllers.BrandAPI
+import controllers.AthleteAPI
+import models.Brand
+import models.Athlete
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+// Main function for handling operations
 fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, " + name + "!")
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
-    }
+    val brandAPI = BrandAPI()
+    val athleteAPI = AthleteAPI(brandAPI)
+
+    // Adding sample brands
+    brandAPI.addBrand(Brand(1, "HR"))
+    brandAPI.addBrand(Brand(2, "Engineering"))
+
+    // Adding sample athletes
+    athleteAPI.addAthlete(Athlete(1, "Alice", 1))
+    athleteAPI.addAthlete(Athlete(2, "Bob", 2))
+
+    // Adding athletes to a brand
+    athleteAPI.addAthleteToBrand(1, 2)
+    athleteAPI.addAthleteToBrand(2, 1)
+
+    // Displaying all athletes
+    println("All Athletes:")
+    athleteAPI.getAllAthletes().forEach { println(it) }
+
+    // Displaying all brands
+    println("All Brands:")
+    brandAPI.getAllBrands().forEach { println(it) }
+
+    // Displaying athletes by brand
+    println("\nAthletes in models.Brand 1:")
+    athleteAPI.getAthletesByBrand(1).forEach { println(it) }
+
+    // Displaying athletes by brand
+    println("\nAthletes in models.Brand 2:")
+    athleteAPI.getAthletesByBrand(2).forEach { println(it) }
+
 }
