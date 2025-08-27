@@ -68,7 +68,8 @@ fun main() {
                 println("All Athletes:")
                 if (athleteAPI.getAllAthletes().isEmpty()) {
                     println("No athletes stored.")
-                } else {
+                }
+                else {
                     athleteAPI.getAllAthletes().forEach { athlete ->
                         val brand = athlete.brandId?.let { brandAPI.getBrandById(it)?.name } ?: "Unassigned"
                         println("ID: ${athlete.id}, Name: ${athlete.name}, Brand: $brand")
@@ -89,7 +90,8 @@ fun main() {
                 val athletes = athleteAPI.getAthletesByBrand(brandId)
                 if (athletes.isEmpty()) {
                     println("No athletes found for brand '${brand.name}'.")
-                } else {
+                }
+                else {
                     println("Athletes in brand '${brand.name}':")
                     athletes.forEach { athlete ->
                         println("ID: ${athlete.id}, Name: ${athlete.name}")
@@ -112,7 +114,8 @@ fun main() {
                 val deleted = brandAPI.deleteBrandById(id)
                 if (deleted != null) {
                     println("Brand '${deleted.name}' was deleted.")
-                } else {
+                }
+                else {
                     println("Failed to delete brand.")
                 }
             }
@@ -124,7 +127,8 @@ fun main() {
                 val deleted = athleteAPI.deleteAthleteById(id)
                 if (deleted != null) {
                     println("Athlete '${deleted.name}' was deleted.")
-                } else {
+                }
+                else {
                     println("Athlete with ID $id not found.")
                 }
             }
@@ -144,8 +148,30 @@ fun main() {
 
                 if (brandAPI.editBrandName(id, newName)) {
                     println("Brand '${brand.name}' renamed to '$newName'.")
-                } else {
+                }
+                else {
                     println("Failed to edit brand.")
+                }
+            }
+
+            10 -> {
+                print("Enter athlete ID to edit: ")
+                val id = readLine()?.toIntOrNull() ?: continue
+
+                val athlete = athleteAPI.getAllAthletes().find { it.id == id }
+                if (athlete == null) {
+                    println("Athlete with ID $id does not exist.")
+                    continue
+                }
+
+                print("Enter new athlete name: ")
+                val newName = readLine().orEmpty()
+
+                if (athleteAPI.editAthleteName(id, newName)) {
+                    println("Athlete '${athlete.name}' renamed to '$newName'.")
+                }
+                else {
+                    println("Failed to edit athlete.")
                 }
             }
 
