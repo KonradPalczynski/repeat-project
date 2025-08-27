@@ -71,8 +71,35 @@ fun main() {
                     }
                 }
             }
+
+            6 -> {
+                print("Enter brand ID to filter: ")
+                val brandId = readLine()?.toIntOrNull() ?: continue
+
+                val brand = brandAPI.getBrandById(brandId)
+                if (brand == null) {
+                    println("Brand with ID $brandId does not exist.")
+                    return
+                }
+
+                val athletes = athleteAPI.getAthletesByBrand(brandId)
+                if (athletes.isEmpty()) {
+                    println("No athletes found for brand '${brand.name}'.")
+                } else {
+                    println("Athletes in brand '${brand.name}':")
+                    athletes.forEach { athlete ->
+                        println("ID: ${athlete.id}, Name: ${athlete.name}")
+                    }
+                }
+            }
+
+            0 -> {
+                println("Exiting program.")
+                return
+            }
+
+            else -> println("Invalid option. Try again.")
         }
     }
 }
-    
 
