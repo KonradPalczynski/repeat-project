@@ -19,13 +19,15 @@ class AthleteAPI(private val brandAPI: BrandAPI) {
 
     fun addAthleteToBrand(athleteId: Int, brandId: Int): String {
         val athlete = athletes.find { it.id == athleteId }
+        val brand = brandAPI.getBrandById(brandId)
+
         return when {
             athlete == null -> "Athlete with ID $athleteId does not exist."
-            !brandAPI.brandExists(brandId) -> "Brand with ID $brandId does not exist."
+            brand == null -> "Brand with ID $brandId does not exist."
             else -> {
                 val updated = athlete.copy(brandId = brandId)
                 athletes[athletes.indexOf(athlete)] = updated
-                "Athlete ${updated.name} assigned to brand ID $brandId."
+                "Athlete ${updated.name} assigned to ${brand.name}."
             }
         }
     }

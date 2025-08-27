@@ -25,4 +25,8 @@ class BrandAPI {
         return brands.any { it.id == id }
     }
 
+    fun getBrandById(id: Int): Brand? {
+        return brands.find { it.id == id }
+    }
+
 }

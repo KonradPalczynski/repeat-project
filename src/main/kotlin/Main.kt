@@ -45,6 +45,15 @@ fun main() {
                     athleteAPI.addAthlete(Athlete(id, name))
                     println("Athlete added.")
                 }
+
+            3 -> {
+                print("Enter athlete ID: ")
+                val athleteId = readLine()?.toIntOrNull() ?: continue
+                print("Enter new brand ID: ")
+                val brandId = readLine()?.toIntOrNull() ?: continue
+                val result = athleteAPI.addAthleteToBrand(athleteId, brandId)
+                println(result)
+            }
             }
         }
     }
