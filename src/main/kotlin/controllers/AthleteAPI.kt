@@ -31,4 +31,14 @@ class AthleteAPI(private val brandAPI: BrandAPI) {
             }
         }
     }
+
+    fun deleteAthleteById(id: Int): Boolean {
+        return athletes.removeIf { it.id == id}
+    }
+
+    fun unassignAthletesFromBrand(brandId: Int) {
+        athletes.replaceAll { athlete ->
+            if (athlete.brandId == brandId) athlete.copy(brandId = null) else athlete
+        }
+    }
 }
