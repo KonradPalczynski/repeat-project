@@ -25,8 +25,9 @@ class BrandAPI {
         return brands.find { it.id == id }
     }
 
-    fun deleteBrandById(id: Int): Boolean {
-        return brands.removeIf { it.id == id}
+    fun deleteBrandById(id: Int): Brand? {
+        val brand = brands.find { it.id == id }
+        return if (brand != null && brands.remove(brand)) brand else null
     }
 
 }
