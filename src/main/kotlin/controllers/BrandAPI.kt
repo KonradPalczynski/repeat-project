@@ -13,16 +13,16 @@ class BrandAPI {
         return if (brands.isEmpty()) {
             "No brands stored"
         } else {
-            var listOfBrands = ""
-            for (i in brands.indices) {
-                listOfBrands += "${i}: ${brands[i]} \n"
-            }
-            listOfBrands
+            brands.joinToString("\n") { "ID: ${it.id}, Name: ${it.name}" }
         }
     }
 
     fun brandExists(id: Int): Boolean {
         return brands.any { it.id == id }
+    }
+
+    fun getBrandById(id: Int): Brand? {
+        return brands.find { it.id == id }
     }
 
 }

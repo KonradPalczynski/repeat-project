@@ -9,32 +9,97 @@ fun main() {
     val brandAPI = BrandAPI()
     val athleteAPI = AthleteAPI(brandAPI)
 
-    // Adding sample brands
-    brandAPI.addBrand(Brand(1, "HR"))
-    brandAPI.addBrand(Brand(2, "Engineering"))
+    while (true) {
+        println(
+            """
+            ----------------------------
+            Please choose an option:
+            1. Add a brand
+            2. Add an athlete
+            3. Assign athlete to brand
+            4. List all brands
+            5. List all athletes
+            6. List athletes by brand
+            0. Exit
+            ----------------------------
+        """.trimIndent()
+        )
 
-    // Adding sample athletes
-    athleteAPI.addAthlete(Athlete(1, "Alice", 1))
-    athleteAPI.addAthlete(Athlete(2, "Bob", 2))
+        print("Enter your choice: ")
+        when (readLine()?.toIntOrNull()) {
+            1 -> {
+                print("Enter brand ID: ")
+                val id = readLine()?.toIntOrNull() ?: continue
+                print("Enter brand name: ")
+                val name = readLine().orEmpty()
+                brandAPI.addBrand(Brand(id, name))
+                println("Brand added.")
+            }
 
-    // Adding athletes to a brand
-    athleteAPI.addAthleteToBrand(1, 2)
-    athleteAPI.addAthleteToBrand(2, 1)
+            2 -> {
+                print("Enter athlete ID: ")
+                val id = readLine()?.toIntOrNull() ?: continue
+                print("Enter athlete name: ")
+                val name = readLine().orEmpty()
 
-    // Displaying all athletes
-    println("All Athletes:")
-    athleteAPI.getAllAthletes().forEach { println(it) }
+                athleteAPI.addAthlete(Athlete(id, name))
+                println("Athlete added.")
+            }
 
-    // Displaying all brands
-    println("All Brands:")
-    brandAPI.getAllBrands().forEach { println(it) }
+            3 -> {
+                print("Enter athlete ID: ")
+                val athleteId = readLine()?.toIntOrNull() ?: continue
+                print("Enter brand ID: ")
+                val brandId = readLine()?.toIntOrNull() ?: continue
+                val result = athleteAPI.addAthleteToBrand(athleteId, brandId)
+                println(result)
+            }
 
-    // Displaying athletes by brand
-    println("\nAthletes in models.Brand 1:")
-    athleteAPI.getAthletesByBrand(1).forEach { println(it) }
+            4 -> {
+                println("All Brands: ")
+                println(brandAPI.listAllBrands())
+            }
 
-    // Displaying athletes by brand
-    println("\nAthletes in models.Brand 2:")
-    athleteAPI.getAthletesByBrand(2).forEach { println(it) }
+            5 -> {
+                println("All Athletes:")
+                if (athleteAPI.getAllAthletes().isEmpty()) {
+                    println("No athletes stored.")
+                } else {
+                    athleteAPI.getAllAthletes().forEach { athlete ->
+                        val brand = athlete.brandId?.let { brandAPI.getBrandById(it)?.name } ?: "Unassigned"
+                        println("ID: ${athlete.id}, Name: ${athlete.name}, Brand: $brand")
+                    }
+                }
+            }
 
+            6 -> {
+                print("Enter brand ID to filter: ")
+                val brandId = readLine()?.toIntOrNull() ?: continue
+
+                val brand = brandAPI.getBrandById(brandId)
+                if (brand == null) {
+                    println("Brand with ID $brandId does not exist.")
+                    return
+                }
+
+                val athletes = athleteAPI.getAthletesByBrand(brandId)
+                if (athletes.isEmpty()) {
+                    println("No athletes found for brand '${brand.name}'.")
+                } else {
+                    println("Athletes in brand '${brand.name}':")
+                    athletes.forEach { athlete ->
+                        println("ID: ${athlete.id}, Name: ${athlete.name}")
+                    }
+                }
+            }
+
+            0 -> {
+                println("Exiting program.")
+                return
+            }
+
+            else -> println("Invalid option. Try again.")
+        }
+    }
 }
+
