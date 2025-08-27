@@ -42,20 +42,37 @@ fun main() {
                 print("Enter athlete name: ")
                 val name = readLine().orEmpty()
 
-                    athleteAPI.addAthlete(Athlete(id, name))
-                    println("Athlete added.")
-                }
+                athleteAPI.addAthlete(Athlete(id, name))
+                println("Athlete added.")
+            }
 
             3 -> {
                 print("Enter athlete ID: ")
                 val athleteId = readLine()?.toIntOrNull() ?: continue
-                print("Enter new brand ID: ")
+                print("Enter brand ID: ")
                 val brandId = readLine()?.toIntOrNull() ?: continue
                 val result = athleteAPI.addAthleteToBrand(athleteId, brandId)
                 println(result)
             }
+
+            4 -> {
+                println("All Brands: ")
+                println(brandAPI.listAllBrands())
+            }
+
+            5 -> {
+                println("All Athletes:")
+                if (athleteAPI.getAllAthletes().isEmpty()) {
+                    println("No athletes stored.")
+                } else {
+                    athleteAPI.getAllAthletes().forEach { athlete ->
+                        val brand = athlete.brandId?.let { brandAPI.getBrandById(it)?.name } ?: "Unassigned"
+                        println("ID: ${athlete.id}, Name: ${athlete.name}, Brand: $brand")
+                    }
+                }
             }
         }
     }
+}
     
 

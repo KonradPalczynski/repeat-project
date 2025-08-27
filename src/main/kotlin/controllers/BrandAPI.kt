@@ -13,11 +13,7 @@ class BrandAPI {
         return if (brands.isEmpty()) {
             "No brands stored"
         } else {
-            var listOfBrands = ""
-            for (i in brands.indices) {
-                listOfBrands += "${i}: ${brands[i]} \n"
-            }
-            listOfBrands
+            brands.joinToString("\n") { "ID: ${it.id}, Name: ${it.name}" }
         }
     }
 
