@@ -30,4 +30,15 @@ class BrandAPI {
         return if (brand != null && brands.remove(brand)) brand else null
     }
 
+    fun editBrandName(id: Int, newName: String): Boolean {
+        val brand = brands.find { it.id == id }
+        return if (brand != null) {
+            val index = brands.indexOf(brand)
+            brands[index] = brand.copy(name = newName)
+            true
+        } else{
+            false
+        }
+    }
+
 }
