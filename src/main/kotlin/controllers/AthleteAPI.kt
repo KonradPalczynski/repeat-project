@@ -42,4 +42,15 @@ class AthleteAPI(private val brandAPI: BrandAPI) {
             if (athlete.brandId == brandId) athlete.copy(brandId = null) else athlete
         }
     }
+
+    fun editAthleteName(id: Int, newName: String): Boolean {
+        val athlete = athletes.find { it.id == id }
+        return if (athlete != null) {
+            val index = athletes.indexOf(athlete)
+            athletes[index] = athlete.copy(name = newName)
+            true
+        } else {
+            false
+        }
+    }
 }
