@@ -20,6 +20,8 @@ fun main() {
             4. List all brands
             5. List all athletes
             6. List athletes by brand
+            7. Delete a brand
+            8. Delete an athlete
             0. Exit
             ----------------------------
         """.trimIndent()
@@ -90,6 +92,38 @@ fun main() {
                     athletes.forEach { athlete ->
                         println("ID: ${athlete.id}, Name: ${athlete.name}")
                     }
+                }
+            }
+
+            7 -> {
+                print("Enter brand ID to delete: ")
+                val id = readLine()?.toIntOrNull() ?: continue
+
+                val brand = brandAPI.getBrandById(id)
+                if (brand == null) {
+                    println("Brand with ID $id does not exist.")
+                    continue
+                }
+
+                athleteAPI.unassignAthletesFromBrand(id)
+
+                val deleted = brandAPI.deleteBrandById(id)
+                if (deleted != null) {
+                    println("Brand '${deleted.name}' was deleted.")
+                } else {
+                    println("Failed to delete brand.")
+                }
+            }
+
+            8 -> {
+                print("Enter athlete ID to delete: ")
+                val id = readLine()?.toIntOrNull() ?: continue
+
+                val deleted = athleteAPI.deleteAthleteById(id)
+                if (deleted != null) {
+                    println("Athlete '${deleted.name}' was deleted.")
+                } else {
+                    println("Athlete with ID $id not found.")
                 }
             }
 
