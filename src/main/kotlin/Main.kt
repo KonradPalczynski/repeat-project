@@ -22,6 +22,8 @@ fun main() {
             6. List athletes by brand
             7. Delete a brand
             8. Delete an athlete
+            9. Edit a brand
+            10. Edit an athlete
             0. Exit
             ----------------------------
         """.trimIndent()
@@ -124,6 +126,26 @@ fun main() {
                     println("Athlete '${deleted.name}' was deleted.")
                 } else {
                     println("Athlete with ID $id not found.")
+                }
+            }
+
+            9 -> {
+                print("Enter brand ID to edit: ")
+                val id = readLine()?.toIntOrNull() ?: continue
+
+                val brand = brandAPI.getBrandById(id)
+                if (brand == null) {
+                    println("Brand with ID $id does not exist.")
+                    continue
+                }
+
+                print("Enter new brand name: ")
+                val newName = readLine().orEmpty()
+
+                if (brandAPI.editBrandName(id, newName)) {
+                    println("Brand '${brand.name}' renamed to '$newName'.")
+                } else {
+                    println("Failed to edit brand.")
                 }
             }
 
