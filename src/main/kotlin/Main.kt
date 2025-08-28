@@ -12,24 +12,29 @@ fun main() {
     while (true) {
         println(
             """
-            ----------------------------
-            Please choose an option:
-            1. Add a brand
-            2. Add an athlete
-            3. Assign athlete to brand
-            4. List all brands
-            5. List all athletes
-            6. List athletes by brand
-            7. Delete a brand
-            8. Delete an athlete
-            9. Edit a brand
-            10. Edit an athlete
-            11. View brand summary (athlete count)
-            0. Exit
-            ----------------------------
-        """.trimIndent()
+    ========================================
+               ATHLETE TRACKER APP
+    ========================================
+    
+    Please choose an option:
+    
+    1.  Add a brand
+    2.  Add an athlete
+    3.  Assign athlete to brand
+    4.  List all brands
+    5.  List all athletes
+    6.  List athletes by brand
+    7.  Delete a brand
+    8.  Delete an athlete
+    9.  Edit a brand
+    10. Edit an athlete
+    11. View brand summary (athlete count)
+    
+    0.  Exit
+    
+    ========================================
+    """.trimIndent()
         )
-
         print("Enter your choice: ")
         when (readLine()?.toIntOrNull()) {
 
