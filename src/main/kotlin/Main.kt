@@ -31,11 +31,19 @@ fun main() {
 
         print("Enter your choice: ")
         when (readLine()?.toIntOrNull()) {
+
             1 -> {
                 print("Enter brand ID: ")
                 val id = readLine()?.toIntOrNull() ?: continue
+
+                if (brandAPI.brandIdExists(id)) {
+                    println("A brand with ID $id already exists.")
+                    continue
+                }
+
                 print("Enter brand name: ")
                 val name = readLine().orEmpty()
+
                 brandAPI.addBrand(Brand(id, name))
                 println("Brand added.")
             }
