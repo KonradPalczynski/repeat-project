@@ -12,30 +12,44 @@ fun main() {
     while (true) {
         println(
             """
-            ----------------------------
-            Please choose an option:
-            1. Add a brand
-            2. Add an athlete
-            3. Assign athlete to brand
-            4. List all brands
-            5. List all athletes
-            6. List athletes by brand
-            7. Delete a brand
-            8. Delete an athlete
-            9. Edit a brand
-            10. Edit an athlete
-            0. Exit
-            ----------------------------
-        """.trimIndent()
+    ========================================
+               ATHLETE TRACKER APP
+    ========================================
+    
+    Please choose an option:
+    
+    1.  Add a brand
+    2.  Add an athlete
+    3.  Assign athlete to brand
+    4.  List all brands
+    5.  List all athletes
+    6.  List athletes by brand
+    7.  Delete a brand
+    8.  Delete an athlete
+    9.  Edit a brand
+    10. Edit an athlete
+    11. View brand summary (athlete count)
+    
+    0.  Exit
+    
+    ========================================
+    """.trimIndent()
         )
-
         print("Enter your choice: ")
         when (readLine()?.toIntOrNull()) {
+
             1 -> {
                 print("Enter brand ID: ")
                 val id = readLine()?.toIntOrNull() ?: continue
+
+                if (brandAPI.brandIdExists(id)) {
+                    println("A brand with ID $id already exists.")
+                    continue
+                }
+
                 print("Enter brand name: ")
                 val name = readLine().orEmpty()
+
                 brandAPI.addBrand(Brand(id, name))
                 println("Brand added.")
             }
@@ -43,10 +57,16 @@ fun main() {
             2 -> {
                 print("Enter athlete ID: ")
                 val id = readLine()?.toIntOrNull() ?: continue
+
+                if (athleteAPI.athleteIdExists(id)) {
+                    println("An athlete with ID $id already exists.")
+                    continue
+                }
+
                 print("Enter athlete name: ")
                 val name = readLine().orEmpty()
 
-                athleteAPI.addAthlete(Athlete(id, name))
+                athleteAPI.addAthlete(Athlete(id, name, null))
                 println("Athlete added.")
             }
 
@@ -109,6 +129,13 @@ fun main() {
                     continue
                 }
 
+                print("Are you sure you want to delete brand '${brand.name}'? (y/n): ")
+                val confirmation = readLine()?.trim()?.lowercase()
+                if (confirmation != "y") {
+                    println("Deletion cancelled.")
+                    continue
+                }
+
                 athleteAPI.unassignAthletesFromBrand(id)
 
                 val deleted = brandAPI.deleteBrandById(id)
@@ -124,12 +151,24 @@ fun main() {
                 print("Enter athlete ID to delete: ")
                 val id = readLine()?.toIntOrNull() ?: continue
 
+                val athlete = athleteAPI.getAllAthletes().find { it.id == id }
+                if (athlete == null) {
+                    println("Athlete with ID $id does not exist.")
+                    continue
+                }
+
+                print("Are you sure you want to delete athlete '${athlete.name}'? (y/n): ")
+                val confirmation = readLine()?.trim()?.lowercase()
+                if (confirmation != "y") {
+                    println("Deletion cancelled.")
+                    continue
+                }
+
                 val deleted = athleteAPI.deleteAthleteById(id)
                 if (deleted != null) {
                     println("Athlete '${deleted.name}' was deleted.")
-                }
-                else {
-                    println("Athlete with ID $id not found.")
+                } else {
+                    println("Failed to delete athlete.")
                 }
             }
 
@@ -172,6 +211,22 @@ fun main() {
                 }
                 else {
                     println("Failed to edit athlete.")
+                }
+            }
+
+            11 -> {
+                val brands = brandAPI.getAllBrands()
+
+                if (brands.isEmpty()) {
+                    println("No brands available.")
+                    continue
+                }
+
+                println("Brand Summary:")
+                brands.forEach { brand ->
+                    val count = athleteAPI.getAthletesByBrand(brand.id).size
+                    val label = if (count == 1) "athlete" else "athletes"
+                    println("${brand.name}: $count $label")
                 }
             }
 
