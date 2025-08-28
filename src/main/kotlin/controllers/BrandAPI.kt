@@ -41,4 +41,8 @@ class BrandAPI {
         }
     }
 
+    fun brandIdExists(id: Int): Boolean {
+        return brands.any { it.id == id }
+    }
+
 }
