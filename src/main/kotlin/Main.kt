@@ -51,10 +51,16 @@ fun main() {
             2 -> {
                 print("Enter athlete ID: ")
                 val id = readLine()?.toIntOrNull() ?: continue
+
+                if (athleteAPI.athleteIdExists(id)) {
+                    println("An athlete with ID $id already exists.")
+                    continue
+                }
+
                 print("Enter athlete name: ")
                 val name = readLine().orEmpty()
 
-                athleteAPI.addAthlete(Athlete(id, name))
+                athleteAPI.addAthlete(Athlete(id, name, null))
                 println("Athlete added.")
             }
 
