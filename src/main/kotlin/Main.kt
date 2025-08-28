@@ -124,6 +124,13 @@ fun main() {
                     continue
                 }
 
+                print("Are you sure you want to delete brand '${brand.name}'? (y/n): ")
+                val confirmation = readLine()?.trim()?.lowercase()
+                if (confirmation != "y") {
+                    println("Deletion cancelled.")
+                    continue
+                }
+
                 athleteAPI.unassignAthletesFromBrand(id)
 
                 val deleted = brandAPI.deleteBrandById(id)
@@ -139,12 +146,24 @@ fun main() {
                 print("Enter athlete ID to delete: ")
                 val id = readLine()?.toIntOrNull() ?: continue
 
+                val athlete = athleteAPI.getAllAthletes().find { it.id == id }
+                if (athlete == null) {
+                    println("Athlete with ID $id does not exist.")
+                    continue
+                }
+
+                print("Are you sure you want to delete athlete '${athlete.name}'? (y/n): ")
+                val confirmation = readLine()?.trim()?.lowercase()
+                if (confirmation != "y") {
+                    println("Deletion cancelled.")
+                    continue
+                }
+
                 val deleted = athleteAPI.deleteAthleteById(id)
                 if (deleted != null) {
                     println("Athlete '${deleted.name}' was deleted.")
-                }
-                else {
-                    println("Athlete with ID $id not found.")
+                } else {
+                    println("Failed to delete athlete.")
                 }
             }
 
