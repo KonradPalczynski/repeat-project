@@ -53,4 +53,8 @@ class AthleteAPI(private val brandAPI: BrandAPI) {
             false
         }
     }
+
+    fun athleteIdExists(id: Int): Boolean {
+        return athletes.any { it.id == id }
+    }
 }
