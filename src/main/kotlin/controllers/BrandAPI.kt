@@ -45,4 +45,9 @@ class BrandAPI {
         return brands.any { it.id == id }
     }
 
+    fun getAllBrands(): List<Brand> {
+        return brands
+    }
+
+
 }

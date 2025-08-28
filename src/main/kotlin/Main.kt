@@ -24,6 +24,7 @@ fun main() {
             8. Delete an athlete
             9. Edit a brand
             10. Edit an athlete
+            11. View brand summary (athlete count)
             0. Exit
             ----------------------------
         """.trimIndent()
@@ -186,6 +187,22 @@ fun main() {
                 }
                 else {
                     println("Failed to edit athlete.")
+                }
+            }
+
+            11 -> {
+                val brands = brandAPI.getAllBrands()
+
+                if (brands.isEmpty()) {
+                    println("No brands available.")
+                    continue
+                }
+
+                println("Brand Summary:")
+                brands.forEach { brand ->
+                    val count = athleteAPI.getAthletesByBrand(brand.id).size
+                    val label = if (count == 1) "athlete" else "athletes"
+                    println("${brand.name}: $count $label")
                 }
             }
 
