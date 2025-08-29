@@ -4,20 +4,37 @@ import models.Brand
 import models.Athlete
 
 // Main function for handling operations
+/**
+ * Entry point for the Athlete Tracker app.
+ * Sets up APIs and handles the main menu loop.
+ */
 fun main() {
 
+    /**
+     * Initialize BrandAPI instance to manage brands.
+     */
     val brandAPI = BrandAPI()
+    /**
+     * Initialize AthleteAPI instance to manage athletes,
+     * passing brandAPI to link athletes to brands.
+     */
     val athleteAPI = AthleteAPI(brandAPI)
 
+    /**
+     * Infinite loop to display menu and handle user input.
+     */
     while (true) {
+        /**
+         * Print the main menu options.
+         */
         println(
             """
     ========================================
                ATHLETE TRACKER APP
     ========================================
-    
+
     Please choose an option:
-    
+
     1.  Add a brand
     2.  Add an athlete
     3.  Assign athlete to brand
@@ -29,15 +46,24 @@ fun main() {
     9.  Edit a brand
     10. Edit an athlete
     11. View brand summary (athlete count)
-    
+
     0.  Exit
-    
+
     ========================================
     """.trimIndent()
         )
+
+        /**
+         * Prompt user for choice and convert input to integer.
+         */
         print("Enter your choice: ")
         when (readLine()?.toIntOrNull()) {
 
+            /**
+             * Add a brand:
+             * Prompt for brand ID and name.
+             * Validate ID uniqueness before adding.
+             */
             1 -> {
                 print("Enter brand ID: ")
                 val id = readLine()?.toIntOrNull() ?: continue
@@ -54,6 +80,11 @@ fun main() {
                 println("Brand added.")
             }
 
+            /**
+             * Add an athlete:
+             * Prompt for athlete ID and name.
+             * Validate ID uniqueness before adding.
+             */
             2 -> {
                 print("Enter athlete ID: ")
                 val id = readLine()?.toIntOrNull() ?: continue
@@ -70,6 +101,11 @@ fun main() {
                 println("Athlete added.")
             }
 
+            /**
+             * Assign athlete to brand:
+             * Prompt for athlete and brand IDs.
+             * Perform the assignment and print result.
+             */
             3 -> {
                 print("Enter athlete ID: ")
                 val athleteId = readLine()?.toIntOrNull() ?: continue
@@ -79,11 +115,17 @@ fun main() {
                 println(result)
             }
 
+            /**
+             * List all brands.
+             */
             4 -> {
                 println("All Brands: ")
                 println(brandAPI.listAllBrands())
             }
 
+            /**
+             * List all athletes with their associated brand names.
+             */
             5 -> {
                 println("All Athletes:")
                 if (athleteAPI.getAllAthletes().isEmpty()) {
@@ -97,6 +139,9 @@ fun main() {
                 }
             }
 
+            /**
+             * List athletes filtered by a given brand ID.
+             */
             6 -> {
                 print("Enter brand ID to filter: ")
                 val brandId = readLine()?.toIntOrNull() ?: continue
@@ -119,6 +164,10 @@ fun main() {
                 }
             }
 
+            /**
+             * Delete a brand by ID after confirmation.
+             * Unassign athletes linked to the brand first.
+             */
             7 -> {
                 print("Enter brand ID to delete: ")
                 val id = readLine()?.toIntOrNull() ?: continue
@@ -147,6 +196,9 @@ fun main() {
                 }
             }
 
+            /**
+             * Delete an athlete by ID after confirmation.
+             */
             8 -> {
                 print("Enter athlete ID to delete: ")
                 val id = readLine()?.toIntOrNull() ?: continue
@@ -172,6 +224,9 @@ fun main() {
                 }
             }
 
+            /**
+             * Edit an existing brand's name.
+             */
             9 -> {
                 print("Enter brand ID to edit: ")
                 val id = readLine()?.toIntOrNull() ?: continue
@@ -193,6 +248,9 @@ fun main() {
                 }
             }
 
+            /**
+             * Edit an existing athlete's name.
+             */
             10 -> {
                 print("Enter athlete ID to edit: ")
                 val id = readLine()?.toIntOrNull() ?: continue
@@ -214,6 +272,9 @@ fun main() {
                 }
             }
 
+            /**
+             * Show a summary of all brands with the count of athletes.
+             */
             11 -> {
                 val brands = brandAPI.getAllBrands()
 
@@ -230,13 +291,18 @@ fun main() {
                 }
             }
 
+            /**
+             * Exit the program cleanly.
+             */
             0 -> {
                 println("Exiting program.")
                 return
             }
 
+            /**
+             * Handle invalid menu option input.
+             */
             else -> println("Invalid option. Try again.")
         }
     }
 }
-
