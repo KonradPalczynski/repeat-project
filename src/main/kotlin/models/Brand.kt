@@ -1,5 +1,12 @@
 package models
 
-data class Brand (
+/**
+ * Represents a Brand with a unique ID and a name.
+ */
+data class Brand(
+    /** Unique identifier for the brand */
     val id: Int,
-    val name: String)
+
+    /** Name of the brand */
+    val name: String
+)
